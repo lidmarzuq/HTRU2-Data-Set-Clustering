@@ -1,0 +1,267 @@
+#Menambahkan library
+library("caret")
+library("class")
+
+#Mempersiapkan data
+data <- read.csv("HTRU_2.csv", header=FALSE)
+summary(data)
+boxplot(data)
+
+#Normalisasi data
+data$V1 <- (data$V1 - min(data$V1))/(max(data$V1) - min(data$V1))
+data$V2 <- (data$V2 - min(data$V2))/(max(data$V2) - min(data$V2))
+data$V3 <- (data$V3 - min(data$V3))/(max(data$V3) - min(data$V3))
+data$V4 <- (data$V4 - min(data$V4))/(max(data$V4) - min(data$V4))
+data$V5 <- (data$V5 - min(data$V5))/(max(data$V5) - min(data$V5))
+data$V6 <- (data$V6 - min(data$V6))/(max(data$V6) - min(data$V6))
+data$V7 <- (data$V7 - min(data$V7))/(max(data$V7) - min(data$V7))
+data$V8 <- (data$V8 - min(data$V8))/(max(data$V8) - min(data$V8))
+data$V9 <- as.factor(data$V9)
+summary(data)
+boxplot(data)
+
+#Membagi data per kelas
+dataClass0 <- data[which(data$V9==0),]
+dataClass1 <- data[which(data$V9==1),]
+FoldsClass0 <- createFolds(dataClass0$V9, k = 10, list = TRUE,
+                           returnTrain = FALSE)
+FoldsClass1 <- createFolds(dataClass1$V9, k = 10, list = TRUE,
+                           returnTrain = FALSE)
+
+##Fold 1
+###Membagi data dan menggabungkan kembali
+trainClass0Fold1 <- dataClass0[-FoldsClass0$Fold01,]
+trainClass1Fold1 <- dataClass1[-FoldsClass1$Fold01,]
+trainFold1 <- rbind(trainClass0Fold1[,], trainClass1Fold1[,])
+testClass0Fold1 <- dataClass0[FoldsClass0$Fold01,]
+testClass1Fold1 <- dataClass1[FoldsClass1$Fold01,]
+testFold1 <- rbind(testClass0Fold1[,], testClass1Fold1[,])
+###Klasifikasi Fold 1
+kvalueFold1 <- ceiling(sqrt(nrow(trainFold1)))
+testLabFold1 <- testFold1$V9
+kNNLabFold1 <- knn(train = trainFold1[,-9], test = testFold1[,-9],
+                   cl = trainFold1[,9], k = kvalueFold1)
+###Mengecek Akurasi Klasifikasi Fold 1
+sum=0
+for (i in 1:nrow(testFold1))
+{
+  if(kNNLabFold1[i]==testLabFold1[i])
+    sum=sum+1
+}
+AccuracykNNFold1 <- sum/nrow(testFold1)*100
+AccuracykNNFold1
+
+##Fold 2
+###Membagi data dan menggabungkan kembali
+trainClass0Fold2 <- dataClass0[-FoldsClass0$Fold02,]
+trainClass1Fold2 <- dataClass1[-FoldsClass1$Fold02,]
+trainFold2 <- rbind(trainClass0Fold2[,], trainClass1Fold2[,])
+testClass0Fold2 <- dataClass0[FoldsClass0$Fold02,]
+testClass1Fold2 <- dataClass1[FoldsClass1$Fold02,]
+testFold2 <- rbind(testClass0Fold2[,], testClass1Fold2[,])
+###Klasifikasi Fold 2
+kvalueFold2 <- ceiling(sqrt(nrow(trainFold2)))
+testLabFold2 <- testFold2$V9
+kNNLabFold2 <- knn(train = trainFold2[,-9], test = testFold2[,-9],
+                   cl = trainFold2[,9], k = kvalueFold2)
+###Mengecek Akurasi Klasifikasi Fold 2
+sum=0
+for (i in 1:nrow(testFold2))
+{
+  if(kNNLabFold2[i]==testLabFold2[i])
+    sum=sum+1
+}
+AccuracykNNFold2 <- sum/nrow(testFold2)*100
+AccuracykNNFold2
+
+##Fold 3
+###Membagi data dan menggabungkan kembali
+trainClass0Fold3 <- dataClass0[-FoldsClass0$Fold03,]
+trainClass1Fold3 <- dataClass1[-FoldsClass1$Fold03,]
+trainFold3 <- rbind(trainClass0Fold3[,], trainClass1Fold3[,])
+testClass0Fold3 <- dataClass0[FoldsClass0$Fold03,]
+testClass1Fold3 <- dataClass1[FoldsClass1$Fold03,]
+testFold3 <- rbind(testClass0Fold3[,], testClass1Fold3[,])
+###Klasifikasi Fold 3
+kvalueFold3 <- ceiling(sqrt(nrow(trainFold3)))
+testLabFold3 <- testFold3$V9
+kNNLabFold3 <- knn(train = trainFold3[,-9], test = testFold3[,-9],
+                   cl = trainFold3[,9], k = kvalueFold3)
+###Mengecek Akurasi Klasifikasi Fold 3
+sum=0
+for (i in 1:nrow(testFold3))
+{
+  if(kNNLabFold3[i]==testLabFold3[i])
+    sum=sum+1
+}
+AccuracykNNFold3 <- sum/nrow(testFold3)*100
+AccuracykNNFold3
+
+##Fold 4
+###Membagi data dan menggabungkan kembali
+trainClass0Fold4 <- dataClass0[-FoldsClass0$Fold04,]
+trainClass1Fold4 <- dataClass1[-FoldsClass1$Fold04,]
+trainFold4 <- rbind(trainClass0Fold4[,], trainClass1Fold4[,])
+testClass0Fold4 <- dataClass0[FoldsClass0$Fold04,]
+testClass1Fold4 <- dataClass1[FoldsClass1$Fold04,]
+testFold4 <- rbind(testClass0Fold4[,], testClass1Fold4[,])
+###Klasifikasi Fold 4
+kvalueFold4 <- ceiling(sqrt(nrow(trainFold4)))
+testLabFold4 <- testFold4$V9
+kNNLabFold4 <- knn(train = trainFold4[,-9], test = testFold4[,-9],
+                   cl = trainFold4[,9], k = kvalueFold4)
+###Mengecek Akurasi Klasifikasi Fold 4
+sum=0
+for (i in 1:nrow(testFold4))
+{
+  if(kNNLabFold4[i]==testLabFold4[i])
+    sum=sum+1
+}
+AccuracykNNFold4 <- sum/nrow(testFold4)*100
+AccuracykNNFold4
+
+##Fold 5
+###Membagi data dan menggabungkan kembali
+trainClass0Fold5 <- dataClass0[-FoldsClass0$Fold05,]
+trainClass1Fold5 <- dataClass1[-FoldsClass1$Fold05,]
+trainFold5 <- rbind(trainClass0Fold5[,], trainClass1Fold5[,])
+testClass0Fold5 <- dataClass0[FoldsClass0$Fold05,]
+testClass1Fold5 <- dataClass1[FoldsClass1$Fold05,]
+testFold5 <- rbind(testClass0Fold5[,], testClass1Fold5[,])
+###Klasifikasi Fold 5
+kvalueFold5 <- ceiling(sqrt(nrow(trainFold5)))
+testLabFold5 <- testFold5$V9
+kNNLabFold5 <- knn(train = trainFold5[,-9], test = testFold5[,-9],
+                   cl = trainFold5[,9], k = kvalueFold5)
+###Mengecek Akurasi Klasifikasi Fold 5
+sum=0
+for (i in 1:nrow(testFold5))
+{
+  if(kNNLabFold5[i]==testLabFold5[i])
+    sum=sum+1
+}
+AccuracykNNFold5 <- sum/nrow(testFold5)*100
+AccuracykNNFold5
+
+##Fold 6
+###Membagi data dan menggabungkan kembali
+trainClass0Fold6 <- dataClass0[-FoldsClass0$Fold06,]
+trainClass1Fold6 <- dataClass1[-FoldsClass1$Fold06,]
+trainFold6 <- rbind(trainClass0Fold6[,], trainClass1Fold6[,])
+testClass0Fold6 <- dataClass0[FoldsClass0$Fold06,]
+testClass1Fold6 <- dataClass1[FoldsClass1$Fold06,]
+testFold6 <- rbind(testClass0Fold6[,], testClass1Fold6[,])
+###Klasifikasi Fold 6
+kvalueFold6 <- ceiling(sqrt(nrow(trainFold6)))
+testLabFold6 <- testFold6$V9
+kNNLabFold6 <- knn(train = trainFold6[,-9], test = testFold6[,-9],
+                   cl = trainFold6[,9], k = kvalueFold6)
+###Mengecek Akurasi Klasifikasi Fold 6
+sum=0
+for (i in 1:nrow(testFold6))
+{
+  if(kNNLabFold6[i]==testLabFold6[i])
+    sum=sum+1
+}
+AccuracykNNFold6 <- sum/nrow(testFold6)*100
+AccuracykNNFold6
+
+##Fold 7
+###Membagi data dan menggabungkan kembali
+trainClass0Fold7 <- dataClass0[-FoldsClass0$Fold07,]
+trainClass1Fold7 <- dataClass1[-FoldsClass1$Fold07,]
+trainFold7 <- rbind(trainClass0Fold7[,], trainClass1Fold7[,])
+testClass0Fold7 <- dataClass0[FoldsClass0$Fold07,]
+testClass1Fold7 <- dataClass1[FoldsClass1$Fold07,]
+testFold7 <- rbind(testClass0Fold7[,], testClass1Fold7[,])
+###Klasifikasi Fold 7
+kvalueFold7 <- ceiling(sqrt(nrow(trainFold7)))
+testLabFold7 <- testFold7$V9
+kNNLabFold7 <- knn(train = trainFold7[,-9], test = testFold7[,-9],
+                   cl = trainFold7[,9], k = kvalueFold7)
+###Mengecek Akurasi Klasifikasi Fold 7
+sum=0
+for (i in 1:nrow(testFold7))
+{
+  if(kNNLabFold7[i]==testLabFold7[i])
+    sum=sum+1
+}
+AccuracykNNFold7 <- sum/nrow(testFold7)*100
+AccuracykNNFold7
+                
+##Fold 8
+###Membagi data dan menggabungkan kembali
+trainClass0Fold8 <- dataClass0[-FoldsClass0$Fold08,]
+trainClass1Fold8 <- dataClass1[-FoldsClass1$Fold08,]
+trainFold8 <- rbind(trainClass0Fold8[,], trainClass1Fold8[,])
+testClass0Fold8 <- dataClass0[FoldsClass0$Fold08,]
+testClass1Fold8 <- dataClass1[FoldsClass1$Fold08,]
+testFold8 <- rbind(testClass0Fold8[,], testClass1Fold8[,])
+###Klasifikasi Fold 8
+kvalueFold8 <- ceiling(sqrt(nrow(trainFold8)))
+testLabFold8 <- testFold8$V9
+kNNLabFold8 <- knn(train = trainFold8[,-9], test = testFold8[,-9],
+                   cl = trainFold8[,9], k = kvalueFold8)
+###Mengecek Akurasi Klasifikasi Fold 8
+sum=0
+for (i in 1:nrow(testFold8))
+{
+  if(kNNLabFold8[i]==testLabFold8[i])
+    sum=sum+1
+}
+AccuracykNNFold8 <- sum/nrow(testFold8)*100
+AccuracykNNFold8
+
+##Fold 9
+###Membagi data dan menggabungkan kembali
+trainClass0Fold9 <- dataClass0[-FoldsClass0$Fold09,]
+trainClass1Fold9 <- dataClass1[-FoldsClass1$Fold09,]
+trainFold9 <- rbind(trainClass0Fold9[,], trainClass1Fold9[,])
+testClass0Fold9 <- dataClass0[FoldsClass0$Fold09,]
+testClass1Fold9 <- dataClass1[FoldsClass1$Fold09,]
+testFold9 <- rbind(testClass0Fold9[,], testClass1Fold9[,])
+###Klasifikasi Fold 9
+kvalueFold9 <- ceiling(sqrt(nrow(trainFold9)))
+testLabFold9 <- testFold9$V9
+kNNLabFold9 <- knn(train = trainFold9[,-9], test = testFold9[,-9],
+                   cl = trainFold9[,9], k = kvalueFold9)
+###Mengecek Akurasi Klasifikasi Fold 9
+sum=0
+for (i in 1:nrow(testFold9))
+{
+  if(kNNLabFold9[i]==testLabFold9[i])
+    sum=sum+1
+}
+AccuracykNNFold9 <- sum/nrow(testFold9)*100
+AccuracykNNFold9
+
+##Fold 10
+###Membagi data dan menggabungkan kembali
+trainClass0Fold10 <- dataClass0[-FoldsClass0$Fold10,]
+trainClass1Fold10 <- dataClass1[-FoldsClass1$Fold10,]
+trainFold10 <- rbind(trainClass0Fold10[,], trainClass1Fold10[,])
+testClass0Fold10 <- dataClass0[FoldsClass0$Fold10,]
+testClass1Fold10 <- dataClass1[FoldsClass1$Fold10,]
+testFold10 <- rbind(testClass0Fold10[,], testClass1Fold10[,])
+###Klasifikasi Fold 10
+kvalueFold10 <- ceiling(sqrt(nrow(trainFold10)))
+testLabFold10 <- testFold10$V9
+kNNLabFold10 <- knn(train = trainFold10[,-9], test = testFold10[,-9],
+                    cl = trainFold10[,9], k = kvalueFold10)
+###Mengecek Akurasi Klasifikasi Fold 10
+sum=0
+for (i in 1:nrow(testFold10))
+{
+  if(kNNLabFold10[i]==testLabFold10[i])
+    sum=sum+1
+}
+AccuracykNNFold10 <- sum/nrow(testFold10)*100
+AccuracykNNFold10
+
+#Hasil Rerata Akurasi
+AccuracykNNAvg <- (AccuracykNNFold1+AccuracykNNFold2+AccuracykNNFold3+
+                     AccuracykNNFold4+AccuracykNNFold5+AccuracykNNFold6+
+                     AccuracykNNFold7+AccuracykNNFold8+AccuracykNNFold9+
+                     AccuracykNNFold10)/10
+AccuracykNNAvg
+
